@@ -26,14 +26,18 @@ int main (int argc, char **argv) {
                 mode = encode;
             else if (!strcmp(argv[i], "dec"))
                 mode = decode;
-            else 
+            else {
                 cout << "Wrong mode!\n";
+                return 1;
+            }
         }
         else {
             cout << "Wrong option!\n";
+            return 1;
         }
     }
     HuffmanCoDec huffmanCoDec(input_name, output_name, mode);
     huffmanCoDec.start();
     huffmanCoDec.finish();
+    return 0;
 }

@@ -8,30 +8,28 @@
 
 #define ERROR 1
 #define SUCCESS 0
-enum mode { encode, decode };
+enum mode  { encode, decode };
 
 using namespace std;
 
 class HuffmanTree {
     private:
         int weight;
-        vector<char>::iterator value;
+        char symbol;
+        string code;
         HuffmanTree* left;
         HuffmanTree* right;
     
     public:
-        HuffmanTree(int, vector<char>::iterator);
-
-};
-
-class HuffmanSymbol {
-    private:
-        char symbol;
-        vector<char> code;
-        int weight;
-
-    public:
-        HuffmanSymbol(char);
+        HuffmanTree(HuffmanTree* left_node, HuffmanTree* right_node, char smb) {
+            left = left_node;
+            right = right_node;
+            if (left != nullptr)
+                weight = left->weight + right->weight;
+            else 
+                weight = 1;
+            symbol = smb;
+        };
         void inc_weight();
         void write_code(vector<char>);
 
@@ -41,8 +39,20 @@ class HuffmanSymbol {
         int get_weight() {
             return weight;
         };
-        vector<char> get_code() {
+        string get_code() {
             return code;
+        };
+        void write_code(string c) {
+            code = c;
+        };
+        int get_weight() {
+            return weight;
+        };
+        HuffmanTree* get_left() {
+            return left;
+        };
+        HuffmanTree* get_right() {
+            return right;
         };
 };
 
@@ -51,19 +61,23 @@ class HuffmanCoDec {
         HuffmanCoDec(string, string, char);
         int read_bin_file(string&);
         void add_new_symbol_into_alphabet(char symbol) {
-            alphabet.push_back(new HuffmanSymbol(symbol));
+            alphabet.push_back(new HuffmanTree(nullptr, nullptr, symbol));
         };
         void count_symbol_weight(char);
         void start();
         void finish();
 
     private:
+        int get_min_node();
+        void make_tree();
+        void count_codes(HuffmanTree*, string);
+        void fill_active_nodes();
         char mode;
-        vector<HuffmanSymbol*> alphabet;
+        vector<HuffmanTree*> alphabet;
+        vector<HuffmanTree*> additional_nodes;
+        vector<vector<HuffmanTree*>::iterator> active_nodes;
         ifstream fin;
         ofstream fout;
-        vector<char> symbol; 
-        vector<int> weight;
 };
 
 #endif
