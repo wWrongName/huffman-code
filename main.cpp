@@ -1,20 +1,21 @@
 #include "huffman.hpp"
 #include <cstring>
+#define NUM_OF_ELEMENTS 7
 
 void help() {
     cout << "In order to encode file you need write: ./huffman -i file0.bin -o file1.bin -m enc\n";
-    cout << "In order to encode file you need write: ./huffman -i file1.bin -o file2.bin -m dec\n";
+    cout << "In order to decode file you need write: ./huffman -i file1.bin -o file2.bin -m dec\n";
 };
 
 int main (int argc, char **argv) {
-    string input_name;
-    string output_name;
+    char* input_name;
+    char* output_name;
     char mode;
-    if (argc != 5) {
+    if (argc != NUM_OF_ELEMENTS) {
         help();
         return 1;
     }
-    for (int i = 1; i < 5; i++) {
+    for (int i = 1; i < NUM_OF_ELEMENTS; i++) {
         if (!strcmp(argv[i], "-i")) {
             input_name = argv[++i];
         }
